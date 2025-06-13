@@ -1,0 +1,66 @@
+{% extends 'layout.html' %}
+{% block title %}Login / Register{% endblock %}
+{% block content %}
+<div class="flex justify-center items-center min-h-screen bg-gradient-to-br from-pink-100 via-white to-blue-100 px-4">
+  <div class="bg-white rounded-xl shadow-2xl p-8 w-full max-w-lg">
+    <h2 class="text-3xl font-bold text-center text-pink-600 mb-6 cursor-default select-none">
+      Welcome to <span class="text-pink-700 font-extrabold">InstaClone</span>
+    </h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="mb-4">
+          {% for category, message in messages %}
+            <div class="text-sm text-{{ 'green' if category == 'success' else 'red' }}-600 font-semibold">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <!-- Toggle Tabs -->
+    <div class="flex justify-around mb-6">
+      <button onclick="toggleTab('login')" id="loginTabBtn"
+        class="w-1/2 text-center py-2 border-b-2 font-semibold text-pink-600 border-pink-500">Login</button>
+      <button onclick="toggleTab('register')" id="registerTabBtn"
+        class="w-1/2 text-center py-2 text-gray-500 border-b-2 border-transparent hover:text-blue-600 hover:border-blue-400 transition">Register</button>
+    </div>
+
+    <!-- Login Form -->
+    <form method="POST" action="/" id="loginForm" class="transition-opacity duration-300">
+      <input type="email" name="email" placeholder="Email" class="w-full p-2 mb-3 border rounded focus:outline-none focus:ring-2 focus:ring-pink-400" required>
+      <input type="password" name="password" placeholder="Password" class="w-full p-2 mb-4 border rounded focus:outline-none focus:ring-2 focus:ring-pink-400" required>
+      <button type="submit" class="w-full bg-pink-500 text-white font-semibold py-2 rounded hover:bg-pink-600 transition">Login</button>
+    </form>
+
+    <!-- Register Form -->
+    <form method="POST" action="/register" id="registerForm" class="hidden transition-opacity duration-300">
+      <input type="text" name="username" placeholder="Username" class="w-full p-2 mb-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+      <input type="email" name="email" placeholder="Email" class="w-full p-2 mb-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+      <input type="password" name="password" placeholder="Password" class="w-full p-2 mb-4 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400" required>
+      <button type="submit" class="w-full bg-blue-500 text-white font-semibold py-2 rounded hover:bg-blue-600 transition">Register</button>
+    </form>
+  </div>
+</div>
+
+<!-- Toggle Script -->
+<script>
+  function toggleTab(tab) {
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+    const loginTabBtn = document.getElementById('loginTabBtn');
+    const registerTabBtn = document.getElementById('registerTabBtn');
+
+    if (tab === 'login') {
+      loginForm.classList.remove('hidden');
+      registerForm.classList.add('hidden');
+      loginTabBtn.classList.add('border-pink-500', 'text-pink-600');
+      registerTabBtn.classList.remove('border-blue-400', 'text-blue-600');
+    } else {
+      loginForm.classList.add('hidden');
+      registerForm.classList.remove('hidden');
+      loginTabBtn.classList.remove('border-pink-500', 'text-pink-600');
+      registerTabBtn.classList.add('border-blue-400', 'text-blue-600');
+    }
+  }
+</script>
+{% endblock %}
